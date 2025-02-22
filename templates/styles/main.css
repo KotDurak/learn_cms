@@ -1,0 +1,21 @@
+.nav-menu{
+    display: flex;
+    list-style-type: none;
+}
+
+.nav-item{
+    margin-left: 10px;
+}
+
+.child-menu{
+    list-style-type: none;
+    display: none;
+}
+
+.nav-item:hover .child-menu{
+    display: block;
+}
+
+.child-menu .nav-item{
+    margin-left: 0;
+}
