@@ -25,6 +25,10 @@ $menu = [
                 'href' => '/functions/catalogs',
             ]
         ]
+    ],
+    [
+            'title' => 'Основы регулярных выражений',
+            'href' => '/regex',
     ]
 ];
 
