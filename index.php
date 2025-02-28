@@ -8,6 +8,7 @@ if (strpos($path, '.php')) {
     $path = substr($path, 1, -4);
 }
 
+ob_start();
 
 if (!in_array($path, ['/', '/index.php', 'index'])) {
     if (!file_exists("./{$path}.php")) {

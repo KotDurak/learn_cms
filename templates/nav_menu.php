@@ -29,6 +29,12 @@ $menu = [
     [
             'title' => 'Основы регулярных выражений',
             'href' => '/regex',
+            'children'  => [
+                    [
+                            'title' => 'Оператор альтренативы',
+                            'href'  => '/regex/alternative',
+                    ]
+            ]
     ]
 ];
 
