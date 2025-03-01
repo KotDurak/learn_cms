@@ -55,4 +55,11 @@ $re = '|^(?:\d{4}) - (?:\d{2}) - (\d{2}) $|xs';
 
 $str = '2025-01-07';
 $re = '|^(?<year>\d{4}) - (?<month>\d{2}) - (?<day>\d{2})$|xs';
-printRegex($re, $str);
+//printRegex($re, $str);
+
+//Позитивный просмотр вперед
+$str = '<a>Tigr</a>';
+$re = '|(\S+)(?=\s*</)|';
+//printRegex($re, $str);
+
+//
