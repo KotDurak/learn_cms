@@ -1,30 +1,85 @@
 <?php
-setTextPlain();
+    if (isPost()) {
+        $callback = null;
+        $matches = null;
 
-$st = '<b>bold text</b>';
-$regex = '|<(\w+).*?>(.*?)</\1>|s';
+        if ($_POST['callback']) {
+            $cb = $_POST['callback'];
+            '$callback = ' . $cb;
+            eval('$callback = ' . $cb);
+        }
 
-preg_match($regex, $st, $matches, PREG_OFFSET_CAPTURE);
-//print_r($matches);
+        switch ($_POST['function']) {
+            case 'preg_match':
+                $result = preg_match($_POST['regex'], $_POST['subject'], $matches);
+                break;
+            default:
+                $result = false;
+        }
+    }
+?>
 
-$flags = [
-    'PREG_PATTERN_ORDER'    => PREG_PATTERN_ORDER,
-    'PREG_SET_ORDER'        => PREG_SET_ORDER,
-    'PREG_SET_ORDER|PREG_OFFSET_CAPTURE'    => PREG_SET_ORDER|PREG_OFFSET_CAPTURE,
-];
+<div>
+    <?php if (isPost()): ?>
+    <div class="preg_result">
+        <p>Функция: <b><?php  echo $_POST['function'] ?></b></p>
 
-$re = '|<(\w+).*?>(.*?)</\1>|s';
-$text = '<b>text</b> and <i>oder text</i>';
+        <?php if (!empty($matches)): ?>
+        <pre style="background: #c5c5c5">
+            <?php print_r($matches); ?>
+        </pre>
+        <?php endif ?>
+    </div>
+    <?php endif; ?>
 
-echo "str: $text";
-echo PHP_EOL;
-echo "regex: $re";
-echo PHP_EOL . PHP_EOL;
+    <form action="" method="POST" class="form" style="width: 700px">
+        <div class="width-50">
+            <div class="form_input">
+                <label for=" ">Регулярное выражение</label>
+                <input type="text" name="regex"/>
+            </div>
 
-foreach ($flags as $name => $flag) {
-    preg_match_all($re, $text, $matches, $flag);
-    echo "Flag $name";
-    echo PHP_EOL;
-    print_r($matches);
-    echo PHP_EOL;
-}
+            <div class="form_input">
+                <label for="">Строка</label>
+                <input type="text" name="subject">
+            </div>
+
+
+            <div class="form_input">
+                <label for="">Строка замены (replacement)</label>
+                <input type="text" name="replacement">
+            </div>
+
+            <div class="form_input">
+                <label for="">Функция</label>
+                <select name="function" id="function">
+                    <option value="preg_match">preg_match</option>
+                    <option value="preg_replace">preg_replace</option>
+                    <option value="preg_match_all">preg_match_all</option>
+                    <option value="preg_replace_callback">preg_replace_callback</option>
+                </select>
+            </div>
+
+            <div>
+                <button name="submit" type="submit">Отправить</button>
+            </div>
+        </div>
+        <div class="width-50">
+            <div class="form_input">
+                <label for="">Флаги</label>
+                <div class="checkbox_list">
+                    <label for="">PREG_OFFSET_CAPTURE</label>
+                    <input type="checkbox" name="flag[]" value="PREG_OFFSET_CAPTURE">
+                    <label for="">PREG_UNMATCHED_AS_NULL</label>
+                    <input type="checkbox" name="flag[]" value="PREG_UNMATCHED_AS_NULL">
+                </div>
+            </div>
+
+            <div class="form_input">
+                <label for="">Callback</label>
+                <textarea name="callback" id="" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+
+    </form>
+</div>

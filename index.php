@@ -8,6 +8,13 @@ if (strpos($path, '.php')) {
     $path = substr($path, 1, -4);
 }
 
+spl_autoload_register(function($class) {
+    $arr = explode('\\', $class);
+    $path = implode('/', $arr);
+
+    include ROOT_PATH . "/{$path}.php";
+});
+
 ob_start();
 
 if (!in_array($path, ['/', '/index.php', 'index'])) {

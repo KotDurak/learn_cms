@@ -33,6 +33,10 @@ $menu = [
                     [
                             'title' => 'Оператор альтренативы',
                             'href'  => '/regex/alternative',
+                    ],
+                    [
+                            'title' => 'Незахватывающий поик',
+                            'href'  => '/regex/unexiting_search'
                     ]
             ]
     ]

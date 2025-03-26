@@ -19,3 +19,23 @@
 .child-menu .nav-item{
     margin-left: 0;
 }
+
+.form{
+    display: flex;;
+}
+
+.form label{
+    display: block;
+}
+
+.width-50{
+    width: 50%;
+}
+
+.form .form_input{
+    margin-bottom: 20px;
+}
+
+.form .checkbox_list label{
+    display: inline-block;
+}

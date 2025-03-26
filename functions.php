@@ -11,6 +11,13 @@ function setTextPlain() {
 }
 
 function vde(...$args) {
+    global $isTextPlain;
+
+    if ($isTextPlain) {
+        array_walk($args, fn($a) => print_r($a));
+        die();
+    }
+
     echo '<pre style="background: #d1cfcf">';
     array_walk($args, fn($a) => print_r($a));
     echo  '</pre>';
@@ -59,4 +66,13 @@ function renderMenu(array $menu, string $menuCLass = 'nav-menu') {
     }
 
     echo '</ul>';
+}
+
+
+function isPost(): bool {
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
+}
+
+function isGet(): bool {
+    return $_SERVER['REQUEST_METHOD'] === 'GET';
 }
