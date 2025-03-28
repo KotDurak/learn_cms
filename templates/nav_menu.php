@@ -37,6 +37,10 @@ $menu = [
                     [
                             'title' => 'Незахватывающий поик',
                             'href'  => '/regex/unexiting_search'
+                    ],
+                    [
+                            'title' => 'Функции',
+                            'href'  => '/regex/functions'
                     ]
             ]
     ]

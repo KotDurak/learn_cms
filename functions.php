@@ -76,3 +76,11 @@ function isPost(): bool {
 function isGet(): bool {
     return $_SERVER['REQUEST_METHOD'] === 'GET';
 }
+
+function getPostVal(string $name, $default = null) {
+    if (!isPost()) {
+        return null;
+    }
+
+    return $_POST[$name] ?? $default;
+}

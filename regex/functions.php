@@ -2,16 +2,40 @@
     if (isPost()) {
         $callback = null;
         $matches = null;
+        $regex = $_POST['regex'];
+        $subject = $_POST['subject'] ?? '';
+        $replacement = $_POST['replacement'] ?? '';
+        $function = $_POST['function'];
+        $flags = $_POST['flag'] ?? [];
+        $cb = $_POST['callback'] ?? null;
 
-        if ($_POST['callback']) {
-            $cb = $_POST['callback'];
+        if ($cb) {
             '$callback = ' . $cb;
             eval('$callback = ' . $cb);
         }
 
+        $flagOption = 0;
+
+        if (!empty($flags)) {
+            foreach ($flags as $flag) {
+                $flagOption = $flagOption | constant($flag);
+            }
+        }
+
         switch ($_POST['function']) {
             case 'preg_match':
-                $result = preg_match($_POST['regex'], $_POST['subject'], $matches);
+                $result = preg_match($regex, $subject, $matches, $flagOption);
+                break;
+            case 'preg_match_all':
+                $result = preg_match_all(
+                        $regex,
+                        $subject,
+                        $matches,
+                        $flagOption
+                );
+                break;
+            case 'preg_replace':
+                $result = preg_replace($regex, $replacement. $subject);
                 break;
             default:
                 $result = false;
@@ -26,7 +50,7 @@
 
         <?php if (!empty($matches)): ?>
         <pre style="background: #c5c5c5">
-            <?php print_r($matches); ?>
+            <?php echo htmlspecialchars(print_r($matches, true)); ?>
         </pre>
         <?php endif ?>
     </div>
@@ -35,13 +59,13 @@
     <form action="" method="POST" class="form" style="width: 700px">
         <div class="width-50">
             <div class="form_input">
-                <label for=" ">Регулярное выражение</label>
-                <input type="text" name="regex"/>
+                <label for="">Регулярное выражение</label>
+                <textarea name="regex" cols="30" rows="10"><?php echo getPostVal('regex') ?></textarea>
             </div>
 
             <div class="form_input">
                 <label for="">Строка</label>
-                <input type="text" name="subject">
+                <textarea name="subject" id="" cols="30" rows="10"><?php echo getPostVal('subject') ?></textarea>
             </div>
 
 
@@ -72,12 +96,18 @@
                     <input type="checkbox" name="flag[]" value="PREG_OFFSET_CAPTURE">
                     <label for="">PREG_UNMATCHED_AS_NULL</label>
                     <input type="checkbox" name="flag[]" value="PREG_UNMATCHED_AS_NULL">
+                    <label for="" title="Элементы, упороядоченные по номеру открывающией скобки">PREG_PATTERN_ORDER</label>
+                    <input type="checkbox" name="flag[]" value="PREG_PATTERN_ORDER">
+                    <label for="">PREG_OFFSET_CAPTURE</label>
+                    <input type="checkbox" name="flag[]" value="PREG_OFFSET_CAPTURE">
+                    <label for="">PREG_SET_ORDER</label>
+                    <input type="checkbox" value="PREG_SET_ORDER">
                 </div>
             </div>
 
             <div class="form_input">
                 <label for="">Callback</label>
-                <textarea name="callback" id="" cols="30" rows="10"></textarea>
+                <textarea name="callback"  cols="30" rows="10"></textarea>
             </div>
         </div>
 
