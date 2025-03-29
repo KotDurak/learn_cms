@@ -43,6 +43,16 @@ $menu = [
                             'href'  => '/regex/functions'
                     ]
             ]
+    ],
+    [
+            'title' => 'Алгоритмы',
+            'href'  => '/algoritms',
+            'children'  => [
+                    [
+                        'title' => 'Тесты',
+                        'href'  => '/algoritms/tests'
+                    ]
+            ]
     ]
 ];
 

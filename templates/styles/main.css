@@ -39,3 +39,39 @@
 .form .checkbox_list label{
     display: inline-block;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+}
+h1, h2, h3 {
+    color: #2c3e50;
+}
+pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+code {
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+.section {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+.note {
+    background-color: #e7f4ff;
+    padding: 10px 15px;
+    border-left: 4px solid #3498db;
+    margin: 15px 0;
+}

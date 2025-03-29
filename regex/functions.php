@@ -1,4 +1,5 @@
 <?php
+    $name = '1';
     if (isPost()) {
         $callback = null;
         $matches = null;
