@@ -50,7 +50,7 @@ $next = array_shift($queue); // 'B'</code></pre>
 <div class="section">
     <h2>2. Алгоритмы сортировки</h2>
 
-    <h3>2.1 Сортировка пузырьком (Bubble Sort)</h3>
+    <h3>2.1 Сортировка пузырьком (Bubble Sort) <a href="/algoritms/tests?alg=bubbleSort">Test</a></h3>
     <pre><code>function bubbleSort(array $arr): array {
     $n = count($arr);
     for ($i = 0; $i < $n; $i++) {
@@ -68,7 +68,7 @@ $next = array_shift($queue); // 'B'</code></pre>
 
 $sorted = bubbleSort([64, 34, 25, 12, 22, 11, 90]);</code></pre>
 
-    <h3>2.2 Быстрая сортировка (Quick Sort)</h3>
+    <h3>2.2 Быстрая сортировка (Quick Sort) <a href="/algoritms/tests?alg=quickSort">Test</a></h3>
     <pre><code>function quickSort(array $arr): array {
     if (count($arr) <= 1) {
         return $arr;

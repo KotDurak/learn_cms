@@ -3,10 +3,11 @@
 </div>
 
 <?php
+$alg = $_GET["alg"] ?? null;
 
-
-$list = [64, 34, 25, 12, 22, 11, 90];
-function bubbleSort(array $list): array {
+$list = [64, 34, 25, 12, 64, 22, 11, 90];
+function bubbleSort(array $list): array
+{
     $count = count($list);
 
 
@@ -25,7 +26,44 @@ function bubbleSort(array $list): array {
     return $list;
 }
 
+function quickSort(array $list): array
+{
+    /**
+     * $first =   [64, 34, 25, 12, 64, 22, 11, 90];
+     * $left = [34,12, 22, 11];
+     * $middle = [64];
+     * $right = [64,90];
+     */
 
+    if (count($list) <= 1) {
+        return $list;
+    }
 
-$sorted = bubbleSort($list);
-vde($sorted);
+    $left = $right = [];
+    $pivot = $list[0];
+
+    for ($i = 1; $i < count($list); $i++) {
+        if ($list[$i] < $pivot) {
+            $left[] = $list[$i];
+        } else {
+            $right[] = $list[$i];
+        }
+    }
+   // vde(compact('left', 'pivot','right', ));
+    return array_merge(
+            quickSort($left),
+            [$pivot],
+            quickSort($right)
+    );
+}
+
+switch ($alg) {
+    case 'bubbleSort':
+        $sort = bubbleSort($list);
+        vde($sort);
+        break;
+    case 'quickSort':
+        $sort = quickSort($list);
+        vde($sort);
+        break;
+}
