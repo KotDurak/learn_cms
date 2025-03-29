@@ -6,7 +6,7 @@ $menu = [
     ],
     [
         'title' => 'Сессии',
-        'href' => '/globals/sessions.php',
+        'href' => '/globals/sessions',
     ],
     [
         'title' => 'Функции',
@@ -28,7 +28,7 @@ $menu = [
     ],
     [
             'title' => 'Основы регулярных выражений',
-            'href' => '/regex',
+            'href' => '/regex/index',
             'children'  => [
                     [
                             'title' => 'Оператор альтренативы',
@@ -46,7 +46,7 @@ $menu = [
     ],
     [
             'title' => 'Алгоритмы',
-            'href'  => '/algoritms',
+            'href'  => '/algoritms/index',
             'children'  => [
                     [
                         'title' => 'Тесты',
