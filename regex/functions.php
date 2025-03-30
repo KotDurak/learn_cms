@@ -42,7 +42,8 @@ addCss('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-o
                 <label for="">Строка замены (replacement)</label>
                 <textarea id="replacement"  name="replacement"></textarea>
             </div>
-
+        </div>
+        <div class="width-50">
             <div class="form_input">
                 <label for="">Функция</label>
                 <select name="function" id="function">
@@ -52,8 +53,7 @@ addCss('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-o
                     <option value="preg_replace_callback">preg_replace_callback</option>
                 </select>
             </div>
-        </div>
-        <div class="width-50">
+
             <div class="form_input">
                 <label for="">Флаги</label>
                 <div class="checkbox_list">

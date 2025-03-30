@@ -14,6 +14,11 @@ if (empty(trim($regex))) {
 }
 
 if ($cb) {
+    if (!isLocal()) {
+       echo renderJsonContent(['message'    => 'callback only local server'], 400);
+       return;
+    }
+
     $cb = preg_replace('/<\?php|\?>$/', '', $cb);
     $cb = trim($cb);
     if ($cb) {

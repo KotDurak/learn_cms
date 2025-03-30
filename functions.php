@@ -144,9 +144,9 @@ function renderCssHead() {
     }
 }
 
-function renderJsonContent($content) {
+function renderJsonContent($content, $status = 200) {
     setContentJson();
-
+    http_response_code($status);
 
     if (is_array($content)) {
         echo json_encode($content);
@@ -155,4 +155,8 @@ function renderJsonContent($content) {
     if (is_string($content) && json_decode($content)) {
         return $content;
     }
+}
+
+function isLocal() {
+    return preg_match('/^localhost(?<port>:\d+)?$/', $_SERVER['HTTP_HOST']);
 }

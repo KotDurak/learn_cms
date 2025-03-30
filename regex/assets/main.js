@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         lineWrapping: true,
     });
 
-    document.getElementById('submit_btn').addEventListener('click', function() {
+    document.getElementById('submit_btn').addEventListener('click',  async function() {
         regexEditor.save();
         phpEditor.save();
         subjectEditor.save();
@@ -46,20 +46,20 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('regex-form')
         );
 
-        fetch('/regex/process', {
+        const response = await fetch('/regex/process', {
            method: 'POST',
            body: formData
-        }).then(response => response.json())
-            .then(result => {
-                document.getElementById('result').textContent = '';
-                const pre = document.createElement('pre');
-                const code = document.createElement('code');
-                code.className = 'language-json';
-                code.textContent = JSON.stringify(result, null, 2);
-                pre.appendChild(code);
-                document.getElementById('result').appendChild(pre);
-                hljs.highlightElement(code);
-            });
+        });
+
+        const result = await response.json();
+        document.getElementById('result').textContent = '';
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');
+        code.className = 'language-json';
+        code.textContent = JSON.stringify(result, null, 2);
+        pre.appendChild(code);
+        document.getElementById('result').appendChild(pre);
+        hljs.highlightElement(code);
     });
 
 });
