@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('regex-form')
         );
 
-        fetch('/regex/functions/process', {
+        fetch('/regex/process', {
            method: 'POST',
            body: formData
         }).then(response => response.json())
