@@ -10,6 +10,12 @@ function setTextPlain() {
     header("Content-type: text/plain; charset=utf-8");
 }
 
+function setContentJson() {
+    global $isContentJson;
+    $isContentJson = true;
+    header('Content-type: application/json');
+}
+
 function vde(...$args) {
     global $isTextPlain;
 
@@ -83,4 +89,70 @@ function getPostVal(string $name, $default = null) {
     }
 
     return $_POST[$name] ?? $default;
+}
+
+function addJs(string $script, $head = false) {
+    global $jsHead;
+    global $jsBody;
+
+    if ($head) {
+        $jsHead[] = $script;
+    } else {
+        $jsBody[] = $script;
+    }
+}
+
+function addCss(string $style) {
+    global $cssHead;
+    $cssHead[] = $style;
+}
+
+function renderJsHead() {
+    global $jsHead;
+
+    if (!$jsHead) {
+        return;
+    }
+
+
+    foreach ($jsHead as $script) {
+        echo '<script src="' . $script . '"></script>';
+    }
+}
+
+function renderJsBody() {
+    global $jsBody;
+
+    if (!$jsBody) {
+        return;
+    }
+
+    foreach ($jsBody as $script) {
+        echo '<script src="' . $script . '"></script>';
+    }
+}
+
+function renderCssHead() {
+    global $cssHead;
+
+    if (!$cssHead) {
+        return;
+    }
+
+    foreach ($cssHead as $style) {
+        echo '<link rel="stylesheet" href="' . $style . '">';
+    }
+}
+
+function renderJsonContent($content) {
+    setContentJson();
+
+
+    if (is_array($content)) {
+        echo json_encode($content);
+    }
+
+    if (is_string($content) && json_decode($content)) {
+        return $content;
+    }
 }

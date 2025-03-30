@@ -1,78 +1,46 @@
 <?php
-    $name = '1';
-    if (isPost()) {
-        $callback = null;
-        $matches = null;
-        $regex = $_POST['regex'];
-        $subject = $_POST['subject'] ?? '';
-        $replacement = $_POST['replacement'] ?? '';
-        $function = $_POST['function'];
-        $flags = $_POST['flag'] ?? [];
-        $cb = $_POST['callback'] ?? null;
 
-        if ($cb) {
-            '$callback = ' . $cb;
-            eval('$callback = ' . $cb);
-        }
+addJs('/regex/assets/main.js');
+addCss('/regex/assets/main.css');
+addCss('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css');
+addCss('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css');
 
-        $flagOption = 0;
+array_map('addJs', [
+        'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/php/php.min.js',
+]);
 
-        if (!empty($flags)) {
-            foreach ($flags as $flag) {
-                $flagOption = $flagOption | constant($flag);
-            }
-        }
+addJs('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js');
+addCss('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css');
 
-        switch ($_POST['function']) {
-            case 'preg_match':
-                $result = preg_match($regex, $subject, $matches, $flagOption);
-                break;
-            case 'preg_match_all':
-                $result = preg_match_all(
-                        $regex,
-                        $subject,
-                        $matches,
-                        $flagOption
-                );
-                break;
-            case 'preg_replace':
-                $result = preg_replace($regex, $replacement. $subject);
-                break;
-            default:
-                $result = false;
-        }
-    }
 ?>
 
 <div>
-    <?php if (isPost()): ?>
-    <div class="preg_result">
-        <p>Функция: <b><?php  echo $_POST['function'] ?></b></p>
+    <div id="result" class="json-results">
 
-        <?php if (!empty($matches)): ?>
-        <pre style="background: #c5c5c5">
-            <?php echo htmlspecialchars(print_r($matches, true)); ?>
-        </pre>
-        <?php endif ?>
     </div>
-    <?php endif; ?>
 
-    <form action="" method="POST" class="form" style="width: 700px">
+    <form action="" id="regex-form" method="POST" class="form" style="width: 700px">
         <div class="width-50">
             <div class="form_input">
                 <label for="">Регулярное выражение</label>
-                <textarea name="regex" cols="30" rows="10"><?php echo getPostVal('regex') ?></textarea>
+                <textarea name="regex" id="regex-input" cols="30" rows="10"><?php echo getPostVal('regex') ?></textarea>
             </div>
 
             <div class="form_input">
                 <label for="">Строка</label>
-                <textarea name="subject" id="" cols="30" rows="10"><?php echo getPostVal('subject') ?></textarea>
+                <textarea name="subject" id="subject_string" cols="30" rows="10"><?php echo getPostVal('subject') ?></textarea>
             </div>
 
 
             <div class="form_input">
                 <label for="">Строка замены (replacement)</label>
-                <input type="text" name="replacement">
+                <textarea id="replacement"  name="replacement"></textarea>
             </div>
 
             <div class="form_input">
@@ -84,33 +52,39 @@
                     <option value="preg_replace_callback">preg_replace_callback</option>
                 </select>
             </div>
-
-            <div>
-                <button name="submit" type="submit">Отправить</button>
-            </div>
         </div>
         <div class="width-50">
             <div class="form_input">
                 <label for="">Флаги</label>
                 <div class="checkbox_list">
-                    <label for="">PREG_OFFSET_CAPTURE</label>
-                    <input type="checkbox" name="flag[]" value="PREG_OFFSET_CAPTURE">
-                    <label for="">PREG_UNMATCHED_AS_NULL</label>
-                    <input type="checkbox" name="flag[]" value="PREG_UNMATCHED_AS_NULL">
-                    <label for="" title="Элементы, упороядоченные по номеру открывающией скобки">PREG_PATTERN_ORDER</label>
-                    <input type="checkbox" name="flag[]" value="PREG_PATTERN_ORDER">
-                    <label for="">PREG_OFFSET_CAPTURE</label>
-                    <input type="checkbox" name="flag[]" value="PREG_OFFSET_CAPTURE">
-                    <label for="">PREG_SET_ORDER</label>
-                    <input type="checkbox" value="PREG_SET_ORDER">
+                    <div class="checkbox_list_item">
+                        <label for="">PREG_OFFSET_CAPTURE</label>
+                        <input type="checkbox" name="flag[]" value="PREG_OFFSET_CAPTURE">
+                    </div>
+                    <div class="checkbox_list_item">
+                        <label for="">PREG_UNMATCHED_AS_NULL</label>
+                        <input type="checkbox" name="flag[]" value="PREG_UNMATCHED_AS_NULL">
+                    </div>
+                    <div class="checkbox_list_item">
+                        <label title="Элементы, упороядоченные по номеру открывающией скобки">PREG_PATTERN_ORDER</label>
+                        <input type="checkbox" name="flag[]" value="PREG_PATTERN_ORDER">
+                    </div>
+
+                    <div class="checkbox_list_item">
+                        <label for="">PREG_SET_ORDER</label>
+                        <input type="checkbox" value="PREG_SET_ORDER">
+                    </div>
                 </div>
             </div>
 
             <div class="form_input">
                 <label for="">Callback</label>
-                <textarea name="callback"  cols="30" rows="10"></textarea>
+                <textarea id="php-code" name="callback" cols="30" rows="10"><?php echo getPostVal('callback')?> </textarea>
+            </div>
+
+            <div>
+                <button type="button" name="button" id="submit_btn" type="submit">Отправить</button>
             </div>
         </div>
-
     </form>
 </div>
