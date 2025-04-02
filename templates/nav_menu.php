@@ -45,6 +45,10 @@ $menu = [
             ]
     ],
     [
+            'title' => 'Перечисления',
+            'href'  => '/enum/index',
+    ],
+    [
             'title' => 'Алгоритмы',
             'href'  => '/algoritms/index',
             'children'  => [
