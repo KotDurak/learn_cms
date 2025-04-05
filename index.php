@@ -15,6 +15,8 @@ spl_autoload_register(function($class) {
     include ROOT_PATH . "/{$path}.php";
 });
 
+//spl_autoload_register(); - так же рабочее решение
+
 ob_start();
 
 if (!in_array($path, ['/', '/index.php', 'index'])) {
