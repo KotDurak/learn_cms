@@ -160,3 +160,21 @@ function renderJsonContent($content, $status = 200) {
 function isLocal() {
     return preg_match('/^localhost(?<port>:\d+)?$/', $_SERVER['HTTP_HOST']);
 }
+
+function getPdo(string $type = 'pgsql'): \PDO {
+    static $pdo = null;
+
+    if (!empty($pdo)) {
+        return $pdo;
+    }
+
+    switch ($type) {
+        case 'pgsql':
+            $pdo = new PDO('pgsql:host=localhost;port=5432;dbname=Tigr', 'Tigr', 'root');
+            break;
+        default:
+            throw new DomainException('Не настроена БД');
+    }
+
+    return $pdo;
+}
