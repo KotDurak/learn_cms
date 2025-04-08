@@ -168,6 +168,23 @@ function getPdo(string $type = 'pgsql'): \PDO {
         return $pdo;
     }
 
+    if ($dbUrl = getenv('DATABASE_URL')) {
+        $dbInfo = parse_url($dbUrl);
+        $dsn = sprintf(
+            'pgsql:host=%s;port=%s;dbname=%s',
+            $dbInfo['host'],
+            $dbInfo['port'],
+            ltrim($dbInfo['path'] ,'/')
+        );
+        $pdo = new PDO(
+            $dsn,
+            $dbInfo['user'],
+            $dbInfo['pass']
+        );
+
+        return $pdo;
+    }
+
     switch ($type) {
         case 'pgsql':
             $pdo = new PDO('pgsql:host=localhost;port=5432;dbname=Tigr', 'Tigr', 'root');
