@@ -12,4 +12,4 @@ CREATE TABLE articles(
     user_id INTEGER,
     created_at TIMESTAMP,
     updated_at TIMESTAMP
-)
+);

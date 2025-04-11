@@ -13,10 +13,10 @@ switch ($tab) {
         $header = 'Зарплаты';
         break;
     case 'revenue':;
-        $query = 'SELECT product, date, revenue, ';
-        $query .= ' SUM(revenue) OVER (PARTITION BY product ORDER BY date) sale_stat ';
+        $query = 'SELECT product, month, revenue, ';
+        $query .= ' SUM(revenue) OVER (PARTITION BY product ORDER BY month) sale_stat ';
         $query  .= ' FROM sales';
-        $columns = ['product', 'date', 'revenue', 'sale_stat'];
+        $columns = ['product', 'month', 'revenue', 'sale_stat'];
         $header = 'Пример 2: Нарастающий итог продаж';
         break;
     case 'rank';
