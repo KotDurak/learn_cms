@@ -4,16 +4,24 @@ define('ROOT_PATH', __DIR__);
 
 
 function setTextPlain() {
-    global $isTextPlain;
-    $isTextPlain = true;
+    global $noTemplate;
+    $noTemplate = true;
 
     header("Content-type: text/plain; charset=utf-8");
 }
 
 function setContentJson() {
-    global $isContentJson;
-    $isContentJson = true;
+    global $noTemplate;
+    $noTemplate = true;
     header('Content-type: application/json');
+}
+
+function setContentType(string $contentType)
+{
+    global $noTemplate;
+    $noTemplate = true;
+
+    header('Content-Type: ' . $contentType);
 }
 
 function vde(...$args) {
@@ -194,4 +202,10 @@ function getPdo(string $type = 'pgsql'): \PDO {
     }
 
     return $pdo;
+}
+
+function addToMenu(array $item) {
+    global $menuItems;
+    $menuItems ??= [];
+    $menuItems[] = $item;
 }

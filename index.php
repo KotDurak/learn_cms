@@ -40,7 +40,7 @@ if (!empty($_SESSION['name'])) {
 
 $content = ob_get_clean();
 
-if (!empty($GLOBALS['isTextPlain']) || !empty($GLOBALS['isContentJson'])) {
+if (!empty($GLOBALS['noTemplate'])) {
    echo $content;
 } else {
     require_once ROOT_PATH . '/templates/main.php';

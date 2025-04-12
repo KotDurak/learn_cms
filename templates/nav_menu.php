@@ -60,6 +60,10 @@ $menu = [
     ]
 ];
 
+if (!empty($GLOBALS['menuItems'])) {
+    $menu = array_merge($menu, $GLOBALS['menuItems']);
+}
+
 ?>
 
 <nav>
